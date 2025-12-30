@@ -14,6 +14,19 @@ const createPost = async (req: Request, res: Response) => {
   }
 };
 
+const getPosts = async (req: Request, res: Response) => {
+  try {
+    const result = await PostService.getPosts();
+    res.status(200).json(result);
+  } catch (error: any) {
+    res.status(400).json({
+      error: "Failed to fetch posts",
+      details: error,
+    });
+  }
+};
+
 export const PostController = {
   createPost,
+  getPosts,
 };

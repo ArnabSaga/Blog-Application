@@ -6,6 +6,16 @@ const createPost = async (data: Omit<Post, "id" | "cretedAt" | "updateAt">) => {
   return result;
 };
 
+const getPosts = async () => {
+  const result = await prisma.post.findMany({
+    include: {
+      comments: true,
+    },
+  });
+  return result;
+};
+
 export const PostService = {
   createPost,
+  getPosts,
 };
