@@ -19,7 +19,7 @@ model Post {
   content    String     @db.Text
   thumbnali  String?
   isFeatured Boolean    @default(false)
-  status     PostStatus @default(PUBILSHED)
+  status     PostStatus @default(PUBLISHED)
   tags        String[]
   views      Int        @default(0)
   authorId   String // bether auth
@@ -51,7 +51,7 @@ model Comment {
 
 enum PostStatus {
   DRAFT
-  PUBILSHED
+  PUBLISHED
   ARCHIVED
 }
 
