@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { PostService } from "./post.service";
 
-import { PostStatus } from '../../../generated/prisma/enums';
+import { PostStatus } from "../../../generated/prisma/enums";
 
 const createPost = async (req: Request, res: Response) => {
   try {
@@ -38,17 +38,23 @@ const getAllPosts = async (req: Request, res: Response) => {
         ? false
         : undefined
       : undefined;
-    
+
     const status = req.query.status as PostStatus | undefined;
 
     const authorId = req.query.authorId as string | undefined;
+
+    //* Pagination
+    const page = Number(req.query.page ?? 1);
+    const limit = Number(req.query.limit ?? 10);
 
     const result = await PostService.getAllPosts({
       search: searchString,
       tags,
       isFeatured,
       status,
-      authorId
+      authorId,
+      page,
+      limit,
     });
     res.status(200).json(result);
   } catch (error: any) {
