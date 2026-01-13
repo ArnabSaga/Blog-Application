@@ -138,7 +138,7 @@ const getPostById = async (postId: string) => {
       include: {
         comments: {
           where: {
-            parent: null,
+            parentId: null,
             status: CommentStatus.APPROVED,
           },
           include: {
@@ -147,9 +147,10 @@ const getPostById = async (postId: string) => {
                 status: CommentStatus.APPROVED,
               },
               include: {
-                replies: true,
-                where: {
-                  status: CommentStatus.APPROVED,
+                replies: {
+                  where: {
+                    status: CommentStatus.APPROVED,
+                  },
                 },
               },
             },
