@@ -208,18 +208,26 @@ const getMyPosts = async (authorId: string) => {
   };
 };
 
+//* user - can only update his/her own post, but they can't update the isFeatured option
+// Info - Admin can do anything
+
 const updatePost = async (
   postId: string,
   data: Partial<Post>,
-  authorId: string
+  authorId: string,
+  isAdmin: boolean
 ) => {
   const postData = await prisma.post.findFirstOrThrow({
     where: { id: postId },
     select: { id: true, authorId: true },
   });
 
-  if (postData.authorId! !== authorId) {
+  if (!isAdmin && postData.authorId !== authorId) {
     throw new Error("You are not the owner | creator of this post");
+  }
+
+  if (!isAdmin) {
+    delete data.isFeatured
   }
 
   const result = await prisma.post.update({
