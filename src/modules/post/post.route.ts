@@ -8,8 +8,18 @@ const router = express.Router();
 
 router.get("/", PostController.getAllPosts);
 
+router.get(
+  "/my-posts",
+  auth(UserRole.USER, UserRole.ADMIN),
+  PostController.getMyPosts
+);
+
 router.get("/:postId", PostController.getPostById);
 
-router.post("/", auth(UserRole.USER), PostController.createPost);
+router.post(
+  "/",
+  auth(UserRole.USER, UserRole.ADMIN),
+  PostController.createPost
+);
 
 export const PostRouter: Router = router;
