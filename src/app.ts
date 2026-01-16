@@ -10,6 +10,7 @@ import { PostRouter } from "./modules/post/post.route";
 import { CommentRouter } from "./modules/comment/comment.route";
 
 import globalErrorHandler from "./middleware/globalErrorHandler";
+import { notFound } from './middleware/NotFound';
 
 const app: Application = express();
 
@@ -31,6 +32,8 @@ app.use("/api/v1/comments", CommentRouter);
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello Prisma World");
 });
+
+app.use(notFound);
 
 app.use(globalErrorHandler);
 
